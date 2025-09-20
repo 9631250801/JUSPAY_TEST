@@ -1,10 +1,10 @@
-# SaaS Dashboard - Pixel Perfect Implementation
+# JUSPAY_TEST - SaaS Dashboard
 
 A modern, responsive SaaS dashboard built with React, Material-UI, and Framer Motion. This project implements a pixel-perfect design with comprehensive microinteractions, accessibility features, and performance optimizations.
 
 ## 🚀 Live Demo
 
-[View Live Demo](https://your-deployment-url.com) | [GitHub Repository](https://github.com/your-username/saas-dashboard)
+[View Live Demo](https://your-deployment-url.com) | [GitHub Repository](https://github.com/9631250801/JUSPAY_TEST)
 
 ## ✨ Features
 
@@ -62,8 +62,8 @@ A modern, responsive SaaS dashboard built with React, Material-UI, and Framer Mo
 ### Setup
 ```bash
 # Clone the repository
-git clone https://github.com/your-username/saas-dashboard.git
-cd saas-dashboard
+git clone https://github.com/9631250801/JUSPAY_TEST.git
+cd JUSPAY_TEST
 
 # Install dependencies
 npm install
