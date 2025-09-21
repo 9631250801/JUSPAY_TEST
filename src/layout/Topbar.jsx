@@ -10,7 +10,7 @@ import MenuIcon from '@mui/icons-material/MenuRounded';
 import { useColorMode } from '../theme/ThemeProvider';
 import { useLocation } from 'react-router-dom';
 
-export default function Topbar({ onMenuClick }) {
+export default function Topbar({ onMenuClick, onNotificationClick, hideNotifications = false, isTablesPage = false }) {
   const { mode, toggleColorMode } = useColorMode();
   const location = useLocation();
   const theme = useTheme();
@@ -33,7 +33,7 @@ export default function Topbar({ onMenuClick }) {
       sx={{ 
         height: { xs: 56, sm: 64, md: 68 },
         left: { xs: 0, sm: 0, md: 212 },
-        right: { xs: 0, sm: 0, md: 280, lg: 280 },
+        right: { xs: 0, sm: 0, md: isTablesPage ? 0 : 280, lg: isTablesPage ? 0 : 280 },
         top: 0,
         padding: { xs: '12px 16px', sm: '16px 20px', md: '20px 28px' },
         gap: { xs: 0, sm: 0, md: 312 },
@@ -64,10 +64,20 @@ export default function Topbar({ onMenuClick }) {
         </Box>
         
         <Box sx={{ display: 'flex', alignItems: 'center', gap: { xs: 0.5, sm: 1 } }}>
+          {/* Mobile Search Icon */}
+          <IconButton aria-label="search" sx={{ 
+            display: { xs: 'flex', sm: 'none' },
+            color: 'text.primary',
+            '&:hover': { bgcolor: 'rgba(0, 0, 0, 0.04)' }
+          }}>
+            <SearchIcon />
+          </IconButton>
+          
+          {/* Desktop Search Bar */}
           <Box sx={{
             px: { xs: 1, sm: 1.5 },
             py: { xs: 0.5, sm: 0.75 },
-            display: 'flex', 
+            display: { xs: 'none', sm: 'flex' }, 
             alignItems: 'center', 
             gap: 1,
             bgcolor: (t) => alpha(t.palette.text.primary, 0.04),
@@ -82,7 +92,10 @@ export default function Topbar({ onMenuClick }) {
             <GridViewIcon />
           </IconButton>
           
-          <IconButton aria-label="toggle theme" onClick={toggleColorMode}>
+          <IconButton aria-label="toggle theme" onClick={toggleColorMode} sx={{ 
+            color: 'text.primary',
+            '&:hover': { bgcolor: 'rgba(0, 0, 0, 0.04)' }
+          }}>
             {mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
           </IconButton>
           
@@ -90,9 +103,30 @@ export default function Topbar({ onMenuClick }) {
             <RefreshIcon />
           </IconButton>
           
-          <IconButton aria-label="notifications">
-            <NotificationsIcon />
-          </IconButton>
+          {!hideNotifications && (
+            <IconButton 
+              aria-label="notifications" 
+              onClick={onNotificationClick}
+              sx={{ 
+                color: 'text.primary',
+                '&:hover': { bgcolor: 'rgba(0, 0, 0, 0.04)' },
+                position: 'relative'
+              }}
+            >
+              <NotificationsIcon />
+              {/* Notification badge */}
+              <Box sx={{
+                position: 'absolute',
+                top: 8,
+                right: 8,
+                width: 8,
+                height: 8,
+                borderRadius: '50%',
+                bgcolor: '#ef4444',
+                border: '2px solid white'
+              }} />
+            </IconButton>
+          )}
         </Box>
       </Toolbar>
     </AppBar>
