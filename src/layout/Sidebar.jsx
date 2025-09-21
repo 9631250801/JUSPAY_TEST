@@ -261,56 +261,51 @@ export default function Sidebar() {
           </Box>
           <Collapse in={pagesOpen} timeout="auto" unmountOnExit>
             <List component="div" disablePadding dense>
-              {/* User Profile with sub-items */}
+              {/* User Profile with sub-items - Static Display */}
               <Box>
-                <ListItemButton
-                  component={NavLink}
-                  to="/profile"
-                  sx={{
-                    borderRadius: 2,
-                    mx: 1,
-                    my: 0.25,
-                    px: { xs: 1, sm: 1.5 },
-                    py: { xs: 0.5, sm: 0.75 },
-                    color: theme.palette.mode === 'dark' ? '#D1D5DB' : '#374151',
-                    '&.active': { 
-                      bgcolor: theme.palette.mode === 'dark' ? '#374151' : '#4B5563',
-                      color: 'white',
-                      '& .MuiListItemIcon-root': {
-                        color: 'white',
-                      },
-                    },
-                    '&:hover': {
-                      bgcolor: theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.08)' : 'rgba(255, 255, 255, 0.1)',
-                    },
-                  }}
-                >
-                  <ListItemIcon sx={{ 
+                <Box sx={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  borderRadius: 2,
+                  mx: 1,
+                  my: 0.25,
+                  px: { xs: 1, sm: 1.5 },
+                  py: { xs: 0.5, sm: 0.75 },
+                  color: theme.palette.mode === 'dark' ? '#D1D5DB' : '#374151',
+                }}>
+                  <Box sx={{ 
                     minWidth: { xs: 32, sm: 36 },
-                    color: theme.palette.mode === 'dark' ? '#9CA3AF' : '#6B7280'
+                    color: theme.palette.mode === 'dark' ? '#9CA3AF' : '#6B7280',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center'
                   }}>
                     <PersonIcon />
-                  </ListItemIcon>
-                  <ListItemText 
-                    primary="User Profile"
-                    primaryTypographyProps={{ 
+                  </Box>
+                  <Typography 
+                    variant="body2"
+                    sx={{ 
                       fontSize: { xs: '0.8rem', sm: '0.875rem' },
-                      color: 'inherit'
+                      color: 'inherit',
+                      flex: 1,
+                      ml: 1
                     }}
-                  />
+                  >
+                    User Profile
+                  </Typography>
                   <ExpandMoreIcon sx={{ 
                     fontSize: { xs: '14px', sm: '16px' }, 
                     color: 'inherit' 
                   }} />
-                </ListItemButton>
+                </Box>
                 <Collapse in={true} timeout="auto" unmountOnExit>
                   <List component="div" disablePadding dense>
                     {userProfileItems.map((item) => (
-                      <ListItemButton
+                      <Box
                         key={item.to}
-                        component={NavLink}
-                        to={item.to}
                         sx={{
+                          display: 'flex',
+                          alignItems: 'center',
                           borderRadius: 2,
                           mx: 2,
                           my: 0.25,
@@ -318,76 +313,70 @@ export default function Sidebar() {
                           px: { xs: 1, sm: 1.5 },
                           py: { xs: 0.5, sm: 0.75 },
                           color: theme.palette.mode === 'dark' ? '#D1D5DB' : '#374151',
-                          '&:hover': {
-                            bgcolor: theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.08)' : 'rgba(255, 255, 255, 0.1)',
-                          },
-                          '&.active': { 
-                            bgcolor: theme.palette.mode === 'dark' ? '#374151' : '#4B5563',
-                            color: 'white',
-                            '& .MuiListItemIcon-root': {
-                              color: 'white',
-                            },
-                          },
                         }}
                       >
-                        <ListItemIcon sx={{ 
+                        <Box sx={{ 
                           minWidth: { xs: 32, sm: 36 },
-                          color: theme.palette.mode === 'dark' ? '#9CA3AF' : '#6B7280'
+                          color: theme.palette.mode === 'dark' ? '#9CA3AF' : '#6B7280',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center'
                         }}>
                           {item.icon}
-                        </ListItemIcon>
-                        <ListItemText 
-                          primary={item.label}
-                          primaryTypographyProps={{ 
+                        </Box>
+                        <Typography 
+                          variant="body2"
+                          sx={{ 
                             fontSize: { xs: '0.8rem', sm: '0.875rem' },
-                            color: 'inherit'
+                            color: 'inherit',
+                            flex: 1,
+                            ml: 1
                           }}
-                        />
-                      </ListItemButton>
+                        >
+                          {item.label}
+                        </Typography>
+                      </Box>
                     ))}
                   </List>
                 </Collapse>
               </Box>
               
-              {/* Other Pages */}
+              {/* Other Pages - Static Display */}
               {pagesItems.filter(item => !item.hasSubItems).map((item) => (
-                <ListItemButton
+                <Box
                   key={item.to}
-                  component={NavLink}
-                  to={item.to}
                   sx={{
+                    display: 'flex',
+                    alignItems: 'center',
                     borderRadius: 2,
                     mx: 1,
                     my: 0.25,
                     px: { xs: 1, sm: 1.5 },
                     py: { xs: 0.5, sm: 0.75 },
                     color: theme.palette.mode === 'dark' ? '#D1D5DB' : '#374151',
-                    '&.active': { 
-                      bgcolor: theme.palette.mode === 'dark' ? '#374151' : '#4B5563',
-                      color: 'white',
-                      '& .MuiListItemIcon-root': {
-                        color: 'white',
-                      },
-                    },
-                    '&:hover': {
-                      bgcolor: theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.08)' : 'rgba(255, 255, 255, 0.1)',
-                    },
                   }}
                 >
-                  <ListItemIcon sx={{ 
+                  <Box sx={{ 
                     minWidth: { xs: 32, sm: 36 },
-                    color: theme.palette.mode === 'dark' ? '#9CA3AF' : '#6B7280'
+                    color: theme.palette.mode === 'dark' ? '#9CA3AF' : '#6B7280',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center'
                   }}>
                     {item.icon}
-                  </ListItemIcon>
-                  <ListItemText 
-                    primary={item.label}
-                    primaryTypographyProps={{ 
+                  </Box>
+                  <Typography 
+                    variant="body2"
+                    sx={{ 
                       fontSize: { xs: '0.8rem', sm: '0.875rem' },
-                      color: 'inherit'
+                      color: 'inherit',
+                      flex: 1,
+                      ml: 1
                     }}
-                  />
-                </ListItemButton>
+                  >
+                    {item.label}
+                  </Typography>
+                </Box>
               ))}
             </List>
           </Collapse>
