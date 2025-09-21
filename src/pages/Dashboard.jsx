@@ -1,10 +1,9 @@
-import React, { useState, useMemo } from 'react';
-import { Box, Grid, Card, CardContent, Typography, List, ListItem, ListItemText, ListItemIcon, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, useTheme, TextField, InputAdornment } from '@mui/material';
+import React from 'react';
+import { Box, Grid, Card, CardContent, Typography, List, ListItem, ListItemText, ListItemIcon, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, useTheme } from '@mui/material';
 import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, ResponsiveContainer, BarChart, Bar, PieChart, Pie, Cell } from 'recharts';
 import { motion } from 'framer-motion';
 import TrendingUpIcon from '@mui/icons-material/TrendingUpRounded';
 import TrendingDownIcon from '@mui/icons-material/TrendingDownRounded';
-import SearchIcon from '@mui/icons-material/SearchRounded';
 // Import image for Revenue by Location
 import locationMapImage from '../assets/images/location-map.png';
 
@@ -139,65 +138,9 @@ const WorldMap = () => {
 
 export default function Dashboard() {
   const theme = useTheme();
-  const [searchTerm, setSearchTerm] = useState('');
-  
-  // Filter data based on search term
-  const filteredKpis = useMemo(() => {
-    if (!searchTerm) return kpis;
-    return kpis.filter(kpi => 
-      kpi.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      kpi.value.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      kpi.change.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-  }, [searchTerm]);
-
-  const filteredTopProducts = useMemo(() => {
-    if (!searchTerm) return topProducts;
-    return topProducts.filter(product => 
-      product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      product.price.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      product.amount.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-  }, [searchTerm]);
-
-  const filteredProjectionsData = useMemo(() => {
-    if (!searchTerm) return projectionsData;
-    return projectionsData.filter(data => 
-      data.name.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-  }, [searchTerm]);
-
-  const filteredRevenueData = useMemo(() => {
-    if (!searchTerm) return revenueData;
-    return revenueData.filter(data => 
-      data.name.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-  }, [searchTerm]);
   
   return (
     <Box sx={{ width: '100%', maxWidth: '100%', bgcolor: 'background.default' }}>
-      {/* Search Bar */}
-      <Box sx={{ mb: 3 }}>
-        <TextField
-          fullWidth
-          placeholder="Search dashboard data..."
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <SearchIcon sx={{ color: 'text.secondary' }} />
-              </InputAdornment>
-            ),
-          }}
-          sx={{
-            '& .MuiOutlinedInput-root': {
-              bgcolor: 'background.paper',
-              borderRadius: 2,
-            }
-          }}
-        />
-      </Box>
 
       <Box sx={{ 
         display: 'grid',
@@ -224,7 +167,7 @@ export default function Dashboard() {
         height: 'auto'
       }}>
         {/* KPI Cards */}
-        {filteredKpis.map((kpi, index) => (
+        {kpis.map((kpi, index) => (
           <Card 
             key={kpi.title}
             variant="outlined" 
@@ -301,7 +244,7 @@ export default function Dashboard() {
           </Typography>
           <Box sx={{ height: 168, overflow: 'hidden' }}>
             <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={filteredProjectionsData} margin={{ top: 10, right: 20, left: 0, bottom: 10 }}>
+              <BarChart data={projectionsData} margin={{ top: 10, right: 20, left: 0, bottom: 10 }}>
                 <CartesianGrid strokeDasharray="3 3" stroke={theme.palette.divider} />
                 <XAxis dataKey="name" stroke={theme.palette.text.secondary} fontSize={12} />
                 <YAxis stroke={theme.palette.text.secondary} domain={[0, 30]} ticks={[0, 10, 20, 30]} fontSize={12} width={30} />
@@ -370,7 +313,7 @@ export default function Dashboard() {
               </Typography>
               <Box sx={{ flex: 1, minHeight: 250 }}>
                 <ResponsiveContainer width="100%" height="100%">
-                  <LineChart data={filteredRevenueData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
+                  <LineChart data={revenueData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
                     <CartesianGrid strokeDasharray="3 3" stroke={theme.palette.divider} />
                     <XAxis dataKey="name" stroke={theme.palette.text.secondary} fontSize={12} />
                     <YAxis stroke={theme.palette.text.secondary} domain={[0, 30]} ticks={[0, 10, 20, 30]} fontSize={12} />
@@ -510,7 +453,7 @@ export default function Dashboard() {
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {filteredTopProducts.map((item) => (
+                    {topProducts.map((item) => (
                       <TableRow 
                         key={item.name}
                         sx={{ 
