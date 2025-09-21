@@ -1,9 +1,10 @@
-import React from 'react';
-import { Box, Grid, Card, CardContent, Typography, List, ListItem, ListItemText, ListItemIcon, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, useTheme } from '@mui/material';
+import React, { useState, useMemo } from 'react';
+import { Box, Grid, Card, CardContent, Typography, List, ListItem, ListItemText, ListItemIcon, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, useTheme, TextField, InputAdornment } from '@mui/material';
 import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, ResponsiveContainer, BarChart, Bar, PieChart, Pie, Cell } from 'recharts';
 import { motion } from 'framer-motion';
 import TrendingUpIcon from '@mui/icons-material/TrendingUpRounded';
 import TrendingDownIcon from '@mui/icons-material/TrendingDownRounded';
+import SearchIcon from '@mui/icons-material/SearchRounded';
 // Import image for Revenue by Location
 import locationMapImage from '../assets/images/location-map.png';
 
@@ -138,21 +139,78 @@ const WorldMap = () => {
 
 export default function Dashboard() {
   const theme = useTheme();
+  const [searchTerm, setSearchTerm] = useState('');
+  
+  // Filter data based on search term
+  const filteredKpis = useMemo(() => {
+    if (!searchTerm) return kpis;
+    return kpis.filter(kpi => 
+      kpi.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      kpi.value.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      kpi.change.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+  }, [searchTerm]);
+
+  const filteredTopProducts = useMemo(() => {
+    if (!searchTerm) return topProducts;
+    return topProducts.filter(product => 
+      product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      product.price.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      product.amount.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+  }, [searchTerm]);
+
+  const filteredProjectionsData = useMemo(() => {
+    if (!searchTerm) return projectionsData;
+    return projectionsData.filter(data => 
+      data.name.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+  }, [searchTerm]);
+
+  const filteredRevenueData = useMemo(() => {
+    if (!searchTerm) return revenueData;
+    return revenueData.filter(data => 
+      data.name.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+  }, [searchTerm]);
   
   return (
-    <Box sx={{ 
-      display: 'grid',
-      gridTemplateColumns: { 
-        xs: '1fr', 
-        sm: '1fr', 
-        md: '1fr 1fr', 
-        lg: '1fr 1fr' 
-      },
-      gap: { xs: 2, sm: 3, md: '28px' },
-      width: '100%',
-      maxWidth: '100%',
-      bgcolor: 'background.default'
-    }}>
+    <Box sx={{ width: '100%', maxWidth: '100%', bgcolor: 'background.default' }}>
+      {/* Search Bar */}
+      <Box sx={{ mb: 3 }}>
+        <TextField
+          fullWidth
+          placeholder="Search dashboard data..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <SearchIcon sx={{ color: 'text.secondary' }} />
+              </InputAdornment>
+            ),
+          }}
+          sx={{
+            '& .MuiOutlinedInput-root': {
+              bgcolor: 'background.paper',
+              borderRadius: 2,
+            }
+          }}
+        />
+      </Box>
+
+      <Box sx={{ 
+        display: 'grid',
+        gridTemplateColumns: { 
+          xs: '1fr', 
+          sm: '1fr', 
+          md: '1fr 1fr', 
+          lg: '1fr 1fr' 
+        },
+        gap: { xs: 2, sm: 3, md: '28px' },
+        width: '100%',
+        maxWidth: '100%'
+      }}>
       {/* Left Side: 2x2 Grid of KPI Cards */}
       <Box sx={{ 
         display: 'grid', 
@@ -165,211 +223,63 @@ export default function Dashboard() {
         width: '100%',
         height: 'auto'
       }}>
-        {/* Top Row */}
-        <Card 
-          variant="outlined" 
-          sx={{ 
-            width: { xs: '100%', sm: '100%', md: 202 },
-            height: { xs: 'auto', sm: 112 },
-            minWidth: { xs: 'auto', sm: 200 },
-            bgcolor: theme.palette.mode === 'dark' ? 'rgba(59, 130, 246, 0.1)' : '#E3F5FF',
-            boxShadow: theme.palette.mode === 'dark' ? '0 6px 20px rgba(0, 0, 0, 0.3)' : '0 6px 20px rgba(13, 38, 59, 0.06)',
-            // borderRadius: 16,
-            border: 'none',
-            cursor: 'pointer',
-            transition: 'all 0.3s ease',
-            opacity: 1,
-            '&:hover': {
-              bgcolor: theme.palette.mode === 'dark' ? 'rgba(59, 130, 246, 0.2)' : '#E3F5FF',
-              transform: 'translateY(-2px)',
-              boxShadow: theme.palette.mode === 'dark' ? '0 8px 25px rgba(0, 0, 0, 0.4)' : '0 8px 25px rgba(13, 38, 59, 0.12)',
-              '& .value-container': {
-                flexDirection: 'row-reverse'
+        {/* KPI Cards */}
+        {filteredKpis.map((kpi, index) => (
+          <Card 
+            key={kpi.title}
+            variant="outlined" 
+            sx={{ 
+              width: { xs: '100%', sm: '100%', md: 202 },
+              height: { xs: 'auto', sm: 112 },
+              minWidth: { xs: 'auto', sm: 200 },
+              bgcolor: theme.palette.mode === 'dark' ? 'rgba(59, 130, 246, 0.1)' : '#E3F5FF',
+              boxShadow: theme.palette.mode === 'dark' ? '0 6px 20px rgba(0, 0, 0, 0.3)' : '0 6px 20px rgba(13, 38, 59, 0.06)',
+              border: 'none',
+              cursor: 'pointer',
+              transition: 'all 0.3s ease',
+              opacity: 1,
+              '&:hover': {
+                bgcolor: theme.palette.mode === 'dark' ? 'rgba(59, 130, 246, 0.2)' : '#E3F5FF',
+                transform: 'translateY(-2px)',
+                boxShadow: theme.palette.mode === 'dark' ? '0 8px 25px rgba(0, 0, 0, 0.4)' : '0 8px 25px rgba(13, 38, 59, 0.12)',
+                '& .value-container': {
+                  flexDirection: 'row-reverse'
+                }
               }
-            }
-          }}
-        >
-          <CardContent sx={{ p: 3, height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', padding: '24px' }}>
-            <Typography variant="body2" fontWeight={500} color="text.secondary" sx={{ fontSize: '14px' }}>
-              Customers
-            </Typography>
-            <Box className="value-container" sx={{ 
-              display: 'flex', 
-              justifyContent: 'space-between', 
-              alignItems: 'center',
-              transition: 'all 0.3s ease'
-            }}>
-              <Typography variant="h4" fontWeight={700} sx={{ fontSize: '32px', color: 'text.primary' }}>
-                3,781
+            }}
+          >
+            <CardContent sx={{ p: 3, height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', padding: '24px' }}>
+              <Typography variant="body2" fontWeight={500} color="text.secondary" sx={{ fontSize: '14px' }}>
+                {kpi.title}
               </Typography>
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-                <TrendingUpIcon sx={{ color: '#10B981', fontSize: '20px' }} />
-                <Typography 
-                  variant="body2" 
-                  color="#10B981" 
-                  fontWeight={500}
-                  sx={{ fontSize: '14px' }}
-                >
-                  +11.01%
+              <Box className="value-container" sx={{ 
+                display: 'flex', 
+                justifyContent: 'space-between', 
+                alignItems: 'center',
+                transition: 'all 0.3s ease'
+              }}>
+                <Typography variant="h4" fontWeight={700} sx={{ fontSize: '32px', color: 'text.primary' }}>
+                  {kpi.value}
                 </Typography>
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+                  {kpi.trend === 'up' ? (
+                    <TrendingUpIcon sx={{ color: '#10B981', fontSize: '20px' }} />
+                  ) : (
+                    <TrendingDownIcon sx={{ color: '#EF4444', fontSize: '20px' }} />
+                  )}
+                  <Typography 
+                    variant="body2" 
+                    color={kpi.trend === 'up' ? '#10B981' : '#EF4444'} 
+                    fontWeight={500}
+                    sx={{ fontSize: '14px' }}
+                  >
+                    {kpi.change}
+                  </Typography>
+                </Box>
               </Box>
-            </Box>
-          </CardContent>
-        </Card>
-
-        <Card 
-          variant="outlined" 
-          sx={{ 
-            width: { xs: '100%', sm: '100%', md: 202 },
-            height: { xs: 'auto', sm: 112 },
-            minWidth: { xs: 'auto', sm: 200 },
-            bgcolor: theme.palette.mode === 'dark' ? '#2d2d2d' : '#F7F9FB',
-            boxShadow: theme.palette.mode === 'dark' ? '0 6px 20px rgba(0, 0, 0, 0.3)' : '0 6px 20px rgba(13, 38, 59, 0.06)',
-            // borderRadius: 16,
-            border: 'none',
-            cursor: 'pointer',
-            transition: 'all 0.3s ease',
-            opacity: 1,
-            '&:hover': {
-              bgcolor: theme.palette.mode === 'dark' ? '#2d2d2d' : '#F7F9FB',
-              transform: 'translateY(-2px)',
-              boxShadow: theme.palette.mode === 'dark' ? '0 8px 25px rgba(0, 0, 0, 0.4)' : '0 8px 25px rgba(13, 38, 59, 0.12)',
-              '& .value-container': {
-                flexDirection: 'row-reverse'
-              }
-            }
-          }}
-        >
-          <CardContent sx={{ p: 3, height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', padding: '24px' }}>
-            <Typography variant="body2" fontWeight={500} color="text.secondary" sx={{ fontSize: '14px' }}>
-              Orders
-            </Typography>
-            <Box className="value-container" sx={{ 
-              display: 'flex', 
-              justifyContent: 'space-between', 
-              alignItems: 'center',
-              transition: 'all 0.3s ease'
-            }}>
-              <Typography variant="h4" fontWeight={700} sx={{ fontSize: '32px', color: 'text.primary' }}>
-                1,219
-              </Typography>
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-                <TrendingDownIcon sx={{ color: '#6B7280', fontSize: '20px' }} />
-                <Typography 
-                  variant="body2" 
-                  color="#6B7280" 
-                  fontWeight={500}
-                  sx={{ fontSize: '14px' }}
-                >
-                  -0.03%
-                </Typography>
-              </Box>
-            </Box>
-          </CardContent>
-        </Card>
-
-        {/* Bottom Row */}
-        <Card 
-          variant="outlined" 
-          sx={{ 
-            width: { xs: '100%', sm: '100%', md: 202 },
-            height: { xs: 'auto', sm: 112 },
-            minWidth: { xs: 'auto', sm: 200 },
-            bgcolor: theme.palette.mode === 'dark' ? '#2d2d2d' : '#F7F9FB',
-            boxShadow: theme.palette.mode === 'dark' ? '0 6px 20px rgba(0, 0, 0, 0.3)' : '0 6px 20px rgba(13, 38, 59, 0.06)',
-            // borderRadius: 16,
-            border: 'none',
-            cursor: 'pointer',
-            transition: 'all 0.3s ease',
-            opacity: 1,
-            '&:hover': {
-              bgcolor: theme.palette.mode === 'dark' ? '#2d2d2d' : '#F7F9FB',
-              transform: 'translateY(-2px)',
-              boxShadow: theme.palette.mode === 'dark' ? '0 8px 25px rgba(0, 0, 0, 0.4)' : '0 8px 25px rgba(13, 38, 59, 0.12)',
-              '& .value-container': {
-                flexDirection: 'row-reverse'
-              }
-            }
-          }}
-        >
-          <CardContent sx={{ p: 3, height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', padding: '24px' }}>
-            <Typography variant="body2" fontWeight={500} color="text.secondary" sx={{ fontSize: '14px' }}>
-              Revenue
-            </Typography>
-            <Box className="value-container" sx={{ 
-              display: 'flex', 
-              justifyContent: 'space-between', 
-              alignItems: 'center',
-              transition: 'all 0.3s ease'
-            }}>
-              <Typography variant="h4" fontWeight={700} sx={{ fontSize: '32px', color: 'text.primary' }}>
-                $695
-              </Typography>
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-                <TrendingUpIcon sx={{ color: '#10B981', fontSize: '20px' }} />
-                <Typography 
-                  variant="body2" 
-                  color="#10B981" 
-                  fontWeight={500}
-                  sx={{ fontSize: '14px' }}
-                >
-                  +15.03%
-                </Typography>
-              </Box>
-            </Box>
-          </CardContent>
-        </Card>
-
-        <Card 
-          variant="outlined" 
-          sx={{ 
-            width: { xs: '100%', sm: '100%', md: 202 },
-            height: { xs: 'auto', sm: 112 },
-            minWidth: { xs: 'auto', sm: 200 },
-            bgcolor: theme.palette.mode === 'dark' ? 'rgba(59, 130, 246, 0.1)' : '#E5ECF6',
-            boxShadow: theme.palette.mode === 'dark' ? '0 6px 20px rgba(0, 0, 0, 0.3)' : '0 6px 20px rgba(13, 38, 59, 0.06)',
-            // borderRadius: 16,
-            border: 'none',
-            cursor: 'pointer',
-            transition: 'all 0.3s ease',
-            opacity: 1,
-            '&:hover': {
-              bgcolor: theme.palette.mode === 'dark' ? 'rgba(59, 130, 246, 0.2)' : '#E5ECF6',
-              transform: 'translateY(-2px)',
-              boxShadow: theme.palette.mode === 'dark' ? '0 8px 25px rgba(0, 0, 0, 0.4)' : '0 8px 25px rgba(13, 38, 59, 0.12)',
-              '& .value-container': {
-                flexDirection: 'row-reverse'
-              }
-            }
-          }}
-        >
-          <CardContent sx={{ p: 3, height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', padding: '24px' }}>
-            <Typography variant="body2" fontWeight={500} color="text.secondary" sx={{ fontSize: '14px' }}>
-              Growth
-            </Typography>
-            <Box className="value-container" sx={{ 
-              display: 'flex', 
-              justifyContent: 'space-between', 
-              alignItems: 'center',
-              transition: 'all 0.3s ease'
-            }}>
-              <Typography variant="h4" fontWeight={700} sx={{ fontSize: '32px', color: 'text.primary' }}>
-                30.1%
-              </Typography>
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-                <TrendingUpIcon sx={{ color: '#10B981', fontSize: '20px' }} />
-                <Typography 
-                  variant="body2" 
-                  color="#10B981" 
-                  fontWeight={500}
-                  sx={{ fontSize: '14px' }}
-                >
-                  +6.08%
-                </Typography>
-              </Box>
-            </Box>
-          </CardContent>
-        </Card>
+            </CardContent>
+          </Card>
+        ))}
       </Box>
 
       {/* Right Side: Projections vs Actuals Chart */}
@@ -391,7 +301,7 @@ export default function Dashboard() {
           </Typography>
           <Box sx={{ height: 168, overflow: 'hidden' }}>
             <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={projectionsData} margin={{ top: 10, right: 20, left: 0, bottom: 10 }}>
+              <BarChart data={filteredProjectionsData} margin={{ top: 10, right: 20, left: 0, bottom: 10 }}>
                 <CartesianGrid strokeDasharray="3 3" stroke={theme.palette.divider} />
                 <XAxis dataKey="name" stroke={theme.palette.text.secondary} fontSize={12} />
                 <YAxis stroke={theme.palette.text.secondary} domain={[0, 30]} ticks={[0, 10, 20, 30]} fontSize={12} width={30} />
@@ -460,7 +370,7 @@ export default function Dashboard() {
               </Typography>
               <Box sx={{ flex: 1, minHeight: 250 }}>
                 <ResponsiveContainer width="100%" height="100%">
-                  <LineChart data={revenueData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
+                  <LineChart data={filteredRevenueData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
                     <CartesianGrid strokeDasharray="3 3" stroke={theme.palette.divider} />
                     <XAxis dataKey="name" stroke={theme.palette.text.secondary} fontSize={12} />
                     <YAxis stroke={theme.palette.text.secondary} domain={[0, 30]} ticks={[0, 10, 20, 30]} fontSize={12} />
@@ -600,7 +510,7 @@ export default function Dashboard() {
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {topProducts.map((item) => (
+                    {filteredTopProducts.map((item) => (
                       <TableRow 
                         key={item.name}
                         sx={{ 
@@ -702,6 +612,7 @@ export default function Dashboard() {
           </Card>
         </Box>
       </Box>
+    </Box>
     </Box>
   );
 }
