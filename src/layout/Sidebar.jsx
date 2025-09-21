@@ -229,20 +229,36 @@ export default function Sidebar() {
         <Divider sx={{ my: 1 }} />
         
         <Box sx={{ mb: 2 }}>
-          <ListItemButton onClick={() => setPagesOpen(!pagesOpen)} sx={{ borderRadius: 1, mx: 1, px: 2, py: 1 }}>
-            <ListItemText 
-              primary="PAGES" 
-              primaryTypographyProps={{ 
-                variant: 'subtitle2', 
-                fontWeight: 700, 
-                color: 'text.primary',
-                textTransform: 'uppercase',
-                letterSpacing: 0.5,
-                fontSize: '12px'
-              }} 
-            />
-            {pagesOpen ? <ExpandLessIcon sx={{ color: 'text.primary', fontSize: '16px' }} /> : <ExpandMoreIcon sx={{ color: 'text.primary', fontSize: '16px' }} />}
-          </ListItemButton>
+          <Box sx={{ 
+            display: 'flex', 
+            alignItems: 'center', 
+            justifyContent: 'space-between',
+            px: { xs: 1.5, sm: 2 }, 
+            py: { xs: 0.75, sm: 1 },
+            mx: 1,
+            borderRadius: 1,
+            cursor: 'pointer',
+            '&:hover': {
+              bgcolor: theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.05)' : 'rgba(0, 0, 0, 0.05)',
+            }
+          }} onClick={() => setPagesOpen(!pagesOpen)}>
+            <Typography 
+              variant="subtitle2" 
+              fontWeight={700} 
+              color="text.primary"
+              textTransform="uppercase"
+              letterSpacing={0.5}
+              sx={{ 
+                fontSize: { xs: '11px', sm: '12px' }
+              }}
+            >
+              PAGES
+            </Typography>
+            {pagesOpen ? 
+              <ExpandLessIcon sx={{ color: 'text.primary', fontSize: { xs: '14px', sm: '16px' } }} /> : 
+              <ExpandMoreIcon sx={{ color: 'text.primary', fontSize: { xs: '14px', sm: '16px' } }} />
+            }
+          </Box>
           <Collapse in={pagesOpen} timeout="auto" unmountOnExit>
             <List component="div" disablePadding dense>
               {/* User Profile with sub-items */}
@@ -254,6 +270,8 @@ export default function Sidebar() {
                     borderRadius: 2,
                     mx: 1,
                     my: 0.25,
+                    px: { xs: 1, sm: 1.5 },
+                    py: { xs: 0.5, sm: 0.75 },
                     color: theme.palette.mode === 'dark' ? '#D1D5DB' : '#374151',
                     '&.active': { 
                       bgcolor: theme.palette.mode === 'dark' ? '#374151' : '#4B5563',
@@ -268,16 +286,22 @@ export default function Sidebar() {
                   }}
                 >
                   <ListItemIcon sx={{ 
-                    minWidth: 36,
+                    minWidth: { xs: 32, sm: 36 },
                     color: theme.palette.mode === 'dark' ? '#9CA3AF' : '#6B7280'
                   }}>
                     <PersonIcon />
                   </ListItemIcon>
                   <ListItemText 
                     primary="User Profile"
-                    primaryTypographyProps={{ fontSize: '14px', color: 'inherit' }}
+                    primaryTypographyProps={{ 
+                      fontSize: { xs: '0.8rem', sm: '0.875rem' },
+                      color: 'inherit'
+                    }}
                   />
-                  <ExpandMoreIcon sx={{ fontSize: 16, color: 'inherit' }} />
+                  <ExpandMoreIcon sx={{ 
+                    fontSize: { xs: '14px', sm: '16px' }, 
+                    color: 'inherit' 
+                  }} />
                 </ListItemButton>
                 <Collapse in={true} timeout="auto" unmountOnExit>
                   <List component="div" disablePadding dense>
@@ -291,6 +315,8 @@ export default function Sidebar() {
                           mx: 2,
                           my: 0.25,
                           pl: 4,
+                          px: { xs: 1, sm: 1.5 },
+                          py: { xs: 0.5, sm: 0.75 },
                           color: theme.palette.mode === 'dark' ? '#D1D5DB' : '#374151',
                           '&:hover': {
                             bgcolor: theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.08)' : 'rgba(255, 255, 255, 0.1)',
@@ -305,14 +331,17 @@ export default function Sidebar() {
                         }}
                       >
                         <ListItemIcon sx={{ 
-                          minWidth: 36,
+                          minWidth: { xs: 32, sm: 36 },
                           color: theme.palette.mode === 'dark' ? '#9CA3AF' : '#6B7280'
                         }}>
                           {item.icon}
                         </ListItemIcon>
                         <ListItemText 
                           primary={item.label}
-                          primaryTypographyProps={{ fontSize: '14px', color: 'inherit' }}
+                          primaryTypographyProps={{ 
+                            fontSize: { xs: '0.8rem', sm: '0.875rem' },
+                            color: 'inherit'
+                          }}
                         />
                       </ListItemButton>
                     ))}
@@ -330,6 +359,8 @@ export default function Sidebar() {
                     borderRadius: 2,
                     mx: 1,
                     my: 0.25,
+                    px: { xs: 1, sm: 1.5 },
+                    py: { xs: 0.5, sm: 0.75 },
                     color: theme.palette.mode === 'dark' ? '#D1D5DB' : '#374151',
                     '&.active': { 
                       bgcolor: theme.palette.mode === 'dark' ? '#374151' : '#4B5563',
@@ -344,14 +375,17 @@ export default function Sidebar() {
                   }}
                 >
                   <ListItemIcon sx={{ 
-                    minWidth: 36,
+                    minWidth: { xs: 32, sm: 36 },
                     color: theme.palette.mode === 'dark' ? '#9CA3AF' : '#6B7280'
                   }}>
                     {item.icon}
                   </ListItemIcon>
                   <ListItemText 
                     primary={item.label}
-                    primaryTypographyProps={{ fontSize: '14px', color: 'inherit' }}
+                    primaryTypographyProps={{ 
+                      fontSize: { xs: '0.8rem', sm: '0.875rem' },
+                      color: 'inherit'
+                    }}
                   />
                 </ListItemButton>
               ))}
