@@ -15,6 +15,8 @@ export default function Topbar({ onMenuClick, onNotificationClick, hideNotificat
   const location = useLocation();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+  const isTablet = useMediaQuery(theme.breakpoints.down('lg'));
+  const isDesktop = useMediaQuery(theme.breakpoints.up('lg'));
   
   const getBreadcrumb = () => {
     if (location.pathname === '/') return 'Dashboards / Default';
@@ -33,44 +35,64 @@ export default function Topbar({ onMenuClick, onNotificationClick, hideNotificat
       sx={{ 
         height: { xs: 56, sm: 64, md: 68 },
         left: { xs: 0, sm: 0, md: 212 },
-        right: { xs: 0, sm: 0, md: isTablesPage ? 0 : 280, lg: isTablesPage ? 0 : 280 },
+        right: { xs: 0, sm: 0, md: isTablesPage ? 0 : (isDesktop ? 280 : 0), lg: isTablesPage ? 0 : 280 },
         top: 0,
-        padding: { xs: '12px 16px', sm: '16px 20px', md: '20px 28px' },
-        gap: { xs: 0, sm: 0, md: 312 },
+        padding: { xs: '8px 12px', sm: '12px 16px', md: '16px 20px' },
         borderBottom: '1px solid rgba(55, 65, 81, 0.3)',
         backdropFilter: 'saturate(180%) blur(6px)',
         bgcolor: 'background.default',
-        width: { xs: '100%', sm: '100%', md: 'auto' }
+        width: { xs: '100%', sm: '100%', md: 'auto' },
+        zIndex: theme.zIndex.appBar
       }}
     >
-      <Toolbar sx={{ gap: 2, justifyContent: 'space-between', px: { xs: 1, sm: 2 } }}>
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+      <Toolbar sx={{ 
+        gap: { xs: 1, sm: 2 }, 
+        justifyContent: 'space-between', 
+        px: { xs: 0, sm: 1 },
+        minHeight: { xs: 56, sm: 64, md: 68 } 
+      }}>
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: { xs: 0.5, sm: 1 }, flex: 1, minWidth: 0 }}>
           {isMobile && (
             <IconButton
               color="inherit"
               aria-label="open drawer"
               edge="start"
               onClick={onMenuClick}
-              sx={{ mr: 1 }}
+              sx={{ mr: 0.5, p: 0.5 }}
             >
               <MenuIcon />
             </IconButton>
           )}
-          <Breadcrumbs aria-label="breadcrumb" sx={{ color: 'text.secondary' }}>
-            <Typography variant="body2" color="text.secondary" sx={{ fontSize: { xs: '0.75rem', sm: '0.875rem' } }}>
+          <Breadcrumbs aria-label="breadcrumb" sx={{ color: 'text.secondary', overflow: 'hidden' }}>
+            <Typography 
+              variant="body2" 
+              color="text.secondary" 
+              sx={{ 
+                fontSize: { xs: '0.75rem', sm: '0.875rem' },
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                whiteSpace: 'nowrap'
+              }}
+            >
               {getBreadcrumb()}
             </Typography>
           </Breadcrumbs>
         </Box>
         
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: { xs: 0.5, sm: 1 } }}>
+        <Box sx={{ 
+          display: 'flex', 
+          alignItems: 'center', 
+          gap: { xs: 0.5, sm: 1 },
+          flexShrink: 0
+        }}>
           {/* Mobile Search Icon */}
           <IconButton aria-label="search" sx={{ 
             display: { xs: 'flex', sm: 'none' },
             color: 'text.primary',
+            p: 0.5,
             '&:hover': { bgcolor: 'rgba(0, 0, 0, 0.04)' }
           }}>
-            <SearchIcon />
+            <SearchIcon fontSize="small" />
           </IconButton>
           
           {/* Desktop Search Bar */}
@@ -83,24 +105,52 @@ export default function Topbar({ onMenuClick, onNotificationClick, hideNotificat
             bgcolor: (t) => alpha(t.palette.text.primary, 0.04),
             borderRadius: 999,
             width: { xs: 120, sm: 200, md: 300 },
+            minWidth: { xs: 120, sm: 200 },
+            maxWidth: { xs: 200, sm: 300 }
           }}>
             <SearchIcon fontSize="small" />
-            <InputBase placeholder="Search…" inputProps={{ 'aria-label': 'search' }} sx={{ flex: 1 }} />
+            <InputBase 
+              placeholder="Search…" 
+              inputProps={{ 'aria-label': 'search' }} 
+              sx={{ 
+                flex: 1,
+                fontSize: { xs: '0.75rem', sm: '0.875rem' }
+              }} 
+            />
           </Box>
           
-          <IconButton aria-label="grid view" sx={{ display: { xs: 'none', sm: 'flex' } }}>
-            <GridViewIcon />
+          <IconButton 
+            aria-label="grid view" 
+            sx={{ 
+              display: { xs: 'none', sm: 'flex' },
+              p: 0.5,
+              '&:hover': { bgcolor: 'rgba(0, 0, 0, 0.04)' }
+            }}
+          >
+            <GridViewIcon fontSize="small" />
           </IconButton>
           
-          <IconButton aria-label="toggle theme" onClick={toggleColorMode} sx={{ 
-            color: 'text.primary',
-            '&:hover': { bgcolor: 'rgba(0, 0, 0, 0.04)' }
-          }}>
-            {mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
+          <IconButton 
+            aria-label="toggle theme" 
+            onClick={toggleColorMode} 
+            sx={{ 
+              color: 'text.primary',
+              p: 0.5,
+              '&:hover': { bgcolor: 'rgba(0, 0, 0, 0.04)' }
+            }}
+          >
+            {mode === 'dark' ? <Brightness7Icon fontSize="small" /> : <Brightness4Icon fontSize="small" />}
           </IconButton>
           
-          <IconButton aria-label="refresh" sx={{ display: { xs: 'none', sm: 'flex' } }}>
-            <RefreshIcon />
+          <IconButton 
+            aria-label="refresh" 
+            sx={{ 
+              display: { xs: 'none', sm: 'flex' },
+              p: 0.5,
+              '&:hover': { bgcolor: 'rgba(0, 0, 0, 0.04)' }
+            }}
+          >
+            <RefreshIcon fontSize="small" />
           </IconButton>
           
           {!hideNotifications && (
@@ -109,21 +159,22 @@ export default function Topbar({ onMenuClick, onNotificationClick, hideNotificat
               onClick={onNotificationClick}
               sx={{ 
                 color: 'text.primary',
+                p: 0.5,
                 '&:hover': { bgcolor: 'rgba(0, 0, 0, 0.04)' },
                 position: 'relative'
               }}
             >
-              <NotificationsIcon />
+              <NotificationsIcon fontSize="small" />
               {/* Notification badge */}
               <Box sx={{
                 position: 'absolute',
-                top: 8,
-                right: 8,
-                width: 8,
-                height: 8,
+                top: 6,
+                right: 6,
+                width: 6,
+                height: 6,
                 borderRadius: '50%',
                 bgcolor: '#ef4444',
-                border: '2px solid white'
+                border: '1px solid white'
               }} />
             </IconButton>
           )}

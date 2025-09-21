@@ -147,9 +147,23 @@ export default function Tables() {
   );
 
   return (
-    <Box sx={{ p: 0, width: '100%' }}>
+    <Box sx={{ 
+      p: 0, 
+      width: '100%',
+      minHeight: '100%',
+      display: 'flex',
+      flexDirection: 'column'
+    }}>
       {/* Page Title */}
-      <Typography variant="h4" fontWeight={700} sx={{ mb: 3, color: 'text.primary', fontSize: '24px' }}>
+      <Typography 
+        variant="h4" 
+        fontWeight={700} 
+        sx={{ 
+          mb: { xs: 2, sm: 3 }, 
+          color: 'text.primary', 
+          fontSize: { xs: '20px', sm: '22px', md: '24px' }
+        }}
+      >
         Order List
       </Typography>
 
@@ -159,31 +173,48 @@ export default function Tables() {
         alignItems={{ xs: 'stretch', sm: 'center' }} 
         justifyContent="space-between" 
         spacing={{ xs: 2, sm: 0 }}
-        sx={{ mb: 3 }}
+        sx={{ mb: { xs: 2, sm: 3 } }}
       >
-        <Stack direction="row" alignItems="center" spacing={1}>
+        <Stack 
+          direction="row" 
+          alignItems="center" 
+          spacing={{ xs: 0.5, sm: 1 }}
+          sx={{ flexShrink: 0 }}
+        >
           <IconButton 
             sx={{ 
               bgcolor: 'primary.main', 
               color: 'white',
-              width: 40,
-              height: 40,
+              width: { xs: 36, sm: 40 },
+              height: { xs: 36, sm: 40 },
               '&:hover': { bgcolor: 'primary.dark' }
             }}
           >
-            <AddIcon />
+            <AddIcon fontSize="small" />
           </IconButton>
-          <IconButton sx={{ color: 'text.secondary', width: 40, height: 40 }}>
-            <FilterListIcon />
+          <IconButton 
+            sx={{ 
+              color: 'text.secondary', 
+              width: { xs: 36, sm: 40 }, 
+              height: { xs: 36, sm: 40 }
+            }}
+          >
+            <FilterListIcon fontSize="small" />
           </IconButton>
-          <IconButton sx={{ color: 'text.secondary', width: 40, height: 40 }}>
-            <SortIcon />
+          <IconButton 
+            sx={{ 
+              color: 'text.secondary', 
+              width: { xs: 36, sm: 40 }, 
+              height: { xs: 36, sm: 40 }
+            }}
+          >
+            <SortIcon fontSize="small" />
           </IconButton>
         </Stack>
         
         <TextField
           size="small"
-          placeholder="Search"
+          placeholder="Search orders..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           InputProps={{
@@ -196,6 +227,7 @@ export default function Tables() {
           sx={{
             minWidth: { xs: '100%', sm: 200 },
             width: { xs: '100%', sm: 'auto' },
+            maxWidth: { xs: '100%', sm: 300 },
             '& .MuiOutlinedInput-root': {
               bgcolor: 'background.paper',
               height: 40,
@@ -211,10 +243,15 @@ export default function Tables() {
           bgcolor: 'background.paper',
           boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)',
           borderRadius: 2,
+          flex: 1,
+          display: 'flex',
+          flexDirection: 'column',
+          overflow: 'hidden'
         }}
       >
         <TableContainer sx={{ 
           overflowX: 'auto',
+          flex: 1,
           '&::-webkit-scrollbar': {
             height: 8,
           },
@@ -230,19 +267,54 @@ export default function Tables() {
           <Table>
             <TableHead>
               <TableRow sx={{ bgcolor: 'background.default' }}>
-                <TableCell padding="checkbox" sx={{ width: 50 }}></TableCell>
-                <TableCell sx={{ fontWeight: 600, color: 'text.secondary', fontSize: '14px' }}>Order ID</TableCell>
-                <TableCell sx={{ fontWeight: 600, color: 'text.secondary', fontSize: '14px' }}>User</TableCell>
-                <TableCell sx={{ fontWeight: 600, color: 'text.secondary', fontSize: '14px' }}>Project</TableCell>
+                <TableCell 
+                  padding="checkbox" 
+                  sx={{ 
+                    width: { xs: 40, sm: 50 },
+                    minWidth: { xs: 40, sm: 50 }
+                  }}
+                ></TableCell>
                 <TableCell sx={{ 
                   fontWeight: 600, 
                   color: 'text.secondary', 
-                  fontSize: '14px',
-                  display: { xs: 'none', md: 'table-cell' }
+                  fontSize: { xs: '12px', sm: '14px' },
+                  minWidth: { xs: 80, sm: 100 }
+                }}>Order ID</TableCell>
+                <TableCell sx={{ 
+                  fontWeight: 600, 
+                  color: 'text.secondary', 
+                  fontSize: { xs: '12px', sm: '14px' },
+                  minWidth: { xs: 100, sm: 120 }
+                }}>User</TableCell>
+                <TableCell sx={{ 
+                  fontWeight: 600, 
+                  color: 'text.secondary', 
+                  fontSize: { xs: '12px', sm: '14px' },
+                  minWidth: { xs: 100, sm: 120 }
+                }}>Project</TableCell>
+                <TableCell sx={{ 
+                  fontWeight: 600, 
+                  color: 'text.secondary', 
+                  fontSize: { xs: '12px', sm: '14px' },
+                  display: { xs: 'none', md: 'table-cell' },
+                  minWidth: 150
                 }}>Address</TableCell>
-                <TableCell sx={{ fontWeight: 600, color: 'text.secondary', fontSize: '14px' }}>Date</TableCell>
-                <TableCell sx={{ fontWeight: 600, color: 'text.secondary', fontSize: '14px' }}>Status</TableCell>
-                <TableCell sx={{ width: 50 }}></TableCell>
+                <TableCell sx={{ 
+                  fontWeight: 600, 
+                  color: 'text.secondary', 
+                  fontSize: { xs: '12px', sm: '14px' },
+                  minWidth: { xs: 80, sm: 100 }
+                }}>Date</TableCell>
+                <TableCell sx={{ 
+                  fontWeight: 600, 
+                  color: 'text.secondary', 
+                  fontSize: { xs: '12px', sm: '14px' },
+                  minWidth: { xs: 80, sm: 100 }
+                }}>Status</TableCell>
+                <TableCell sx={{ 
+                  width: { xs: 40, sm: 50 },
+                  minWidth: { xs: 40, sm: 50 }
+                }}></TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -257,62 +329,117 @@ export default function Tables() {
                     <Checkbox
                       checked={selectedRows.includes(order.id)}
                       onChange={() => handleSelectRow(order.id)}
-                      sx={{ color: 'text.secondary' }}
+                      sx={{ 
+                        color: 'text.secondary',
+                        p: { xs: 0.5, sm: 1 }
+                      }}
                     />
                   </TableCell>
-                  <TableCell sx={{ color: 'text.primary', fontWeight: 500, fontSize: '14px' }}>
+                  <TableCell sx={{ 
+                    color: 'text.primary', 
+                    fontWeight: 500, 
+                    fontSize: { xs: '12px', sm: '14px' }
+                  }}>
                     {order.id}
                   </TableCell>
                   <TableCell>
-                    <Stack direction="row" alignItems="center" spacing={1}>
+                    <Stack 
+                      direction="row" 
+                      alignItems="center" 
+                      spacing={{ xs: 0.5, sm: 1 }}
+                      sx={{ minWidth: 0 }}
+                    >
                       <Avatar 
                         src={order.user.image}
                         alt={order.user.name}
                         sx={{ 
-                          width: 32, 
-                          height: 32, 
+                          width: { xs: 28, sm: 32 }, 
+                          height: { xs: 28, sm: 32 }, 
                           bgcolor: '#374151',
-                          fontSize: '12px',
-                          fontWeight: 600
+                          fontSize: { xs: '10px', sm: '12px' },
+                          fontWeight: 600,
+                          flexShrink: 0
                         }}
                       >
                         {order.user.initials}
                       </Avatar>
-                      <Typography variant="body2" sx={{ color: 'text.primary', fontSize: '14px' }}>
+                      <Typography 
+                        variant="body2" 
+                        sx={{ 
+                          color: 'text.primary', 
+                          fontSize: { xs: '12px', sm: '14px' },
+                          overflow: 'hidden',
+                          textOverflow: 'ellipsis',
+                          whiteSpace: 'nowrap'
+                        }}
+                      >
                         {order.user.name}
                       </Typography>
                     </Stack>
                   </TableCell>
-                  <TableCell sx={{ color: 'text.primary', fontSize: '14px' }}>
+                  <TableCell sx={{ 
+                    color: 'text.primary', 
+                    fontSize: { xs: '12px', sm: '14px' },
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                    whiteSpace: 'nowrap'
+                  }}>
                     {order.project}
                   </TableCell>
                   <TableCell sx={{ 
                     color: 'text.primary', 
-                    fontSize: '14px',
-                    display: { xs: 'none', md: 'table-cell' }
+                    fontSize: { xs: '12px', sm: '14px' },
+                    display: { xs: 'none', md: 'table-cell' },
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                    whiteSpace: 'nowrap'
                   }}>
                     {order.address}
                   </TableCell>
-                  <TableCell sx={{ color: 'text.primary', fontSize: '14px' }}>
+                  <TableCell sx={{ 
+                    color: 'text.primary', 
+                    fontSize: { xs: '12px', sm: '14px' }
+                  }}>
                     {order.date}
                   </TableCell>
                   <TableCell>
-                    <Stack direction="row" alignItems="center" spacing={1}>
+                    <Stack 
+                      direction="row" 
+                      alignItems="center" 
+                      spacing={{ xs: 0.5, sm: 1 }}
+                      sx={{ minWidth: 0 }}
+                    >
                       <Box
                         sx={{
-                          width: 8,
-                          height: 8,
+                          width: { xs: 6, sm: 8 },
+                          height: { xs: 6, sm: 8 },
                           borderRadius: '50%',
-                          bgcolor: order.status.color
+                          bgcolor: order.status.color,
+                          flexShrink: 0
                         }}
                       />
-                      <Typography variant="body2" sx={{ color: 'text.primary', fontSize: '14px' }}>
+                      <Typography 
+                        variant="body2" 
+                        sx={{ 
+                          color: 'text.primary', 
+                          fontSize: { xs: '11px', sm: '12px', md: '14px' },
+                          overflow: 'hidden',
+                          textOverflow: 'ellipsis',
+                          whiteSpace: 'nowrap'
+                        }}
+                      >
                         {order.status.label}
                       </Typography>
                     </Stack>
                   </TableCell>
                   <TableCell>
-                    <IconButton size="small" sx={{ color: 'text.secondary' }}>
+                    <IconButton 
+                      size="small" 
+                      sx={{ 
+                        color: 'text.secondary',
+                        p: { xs: 0.5, sm: 1 }
+                      }}
+                    >
                       <MoreVertIcon fontSize="small" />
                     </IconButton>
                   </TableCell>
@@ -327,7 +454,10 @@ export default function Tables() {
       <Stack 
         direction="row" 
         justifyContent={{ xs: 'center', sm: 'flex-end' }} 
-        sx={{ mt: 3 }}
+        sx={{ 
+          mt: { xs: 2, sm: 3 },
+          flexShrink: 0
+        }}
       >
         <Pagination
           count={Math.ceil(filteredData.length / rowsPerPage)}
@@ -335,14 +465,21 @@ export default function Tables() {
           onChange={(_, page) => setCurrentPage(page)}
           color="primary"
           size="small"
+          showFirstButton
+          showLastButton
           sx={{
             '& .MuiPaginationItem-root': {
               color: 'text.secondary',
-              fontSize: '14px',
+              fontSize: { xs: '12px', sm: '14px' },
+              minWidth: { xs: 28, sm: 32 },
+              height: { xs: 28, sm: 32 },
               '&.Mui-selected': {
                 bgcolor: 'primary.main',
                 color: 'white',
               }
+            },
+            '& .MuiPaginationItem-ellipsis': {
+              display: { xs: 'none', sm: 'flex' }
             }
           }}
         />

@@ -12,6 +12,7 @@ import { NavLink } from 'react-router-dom';
 
 const favoritesItems = [
   { label: 'Overview', icon: <DashboardIcon />, to: '/' },
+  { label: 'Tables', icon: <TableChartIcon />, to: '/tables' },
   { label: 'Projects', icon: <TableChartIcon />, to: '/projects' },
 ];
 
@@ -51,7 +52,14 @@ export default function Sidebar() {
 
   const NavSection = ({ title, items, open, onToggle }) => (
     <Box>
-      <ListItemButton onClick={onToggle} sx={{ px: 2, py: 1 }}>
+      <ListItemButton 
+        onClick={onToggle} 
+        sx={{ 
+          px: { xs: 1.5, sm: 2 }, 
+          py: { xs: 0.75, sm: 1 },
+          borderRadius: 1
+        }}
+      >
         <ListItemText 
           primary={title} 
           primaryTypographyProps={{ 
@@ -60,10 +68,19 @@ export default function Sidebar() {
             color: theme.palette.mode === 'dark' ? '#9CA3AF' : '#1F2937',
             textTransform: 'uppercase',
             letterSpacing: 0.5,
-            fontSize: '12px'
+            fontSize: { xs: '11px', sm: '12px' }
           }} 
         />
-        {open ? <ExpandLessIcon sx={{ color: theme.palette.mode === 'dark' ? '#9CA3AF' : '#1F2937', fontSize: '16px' }} /> : <ExpandMoreIcon sx={{ color: theme.palette.mode === 'dark' ? '#9CA3AF' : '#1F2937', fontSize: '16px' }} />}
+        {open ? 
+          <ExpandLessIcon sx={{ 
+            color: theme.palette.mode === 'dark' ? '#9CA3AF' : '#1F2937', 
+            fontSize: { xs: '14px', sm: '16px' } 
+          }} /> : 
+          <ExpandMoreIcon sx={{ 
+            color: theme.palette.mode === 'dark' ? '#9CA3AF' : '#1F2937', 
+            fontSize: { xs: '14px', sm: '16px' } 
+          }} />
+        }
       </ListItemButton>
       <Collapse in={open} timeout="auto" unmountOnExit>
         <List component="div" disablePadding dense>
@@ -74,8 +91,10 @@ export default function Sidebar() {
               to={item.to}
               sx={{
                 borderRadius: 2,
-                mx: 1,
+                mx: { xs: 0.5, sm: 1 },
                 my: 0.25,
+                px: { xs: 1, sm: 1.5 },
+                py: { xs: 0.5, sm: 0.75 },
                 color: theme.palette.mode === 'dark' ? '#9ca3af' : '#374151',
                 bgcolor: item.active ? (theme.palette.mode === 'dark' ? '#374151' : '#f3f4f6') : 'transparent',
                 color: item.active ? (theme.palette.mode === 'dark' ? 'white' : '#374151') : (theme.palette.mode === 'dark' ? '#9ca3af' : '#374151'),
@@ -94,19 +113,24 @@ export default function Sidebar() {
               }}
             >
               <ListItemIcon sx={{ 
-                minWidth: 36, 
+                minWidth: { xs: 32, sm: 36 }, 
                 color: item.active ? 'white' : (theme.palette.mode === 'dark' ? '#9CA3AF' : '#6B7280')
               }}>
                 {item.icon}
               </ListItemIcon>
               <ListItemText 
                 primary={item.label}
-                primaryTypographyProps={{ fontSize: '0.875rem' }}
+                primaryTypographyProps={{ 
+                  fontSize: { xs: '0.8rem', sm: '0.875rem' },
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                  whiteSpace: 'nowrap'
+                }}
               />
               {item.hasDropdown && (
                 <ExpandMoreIcon sx={{ 
                   color: item.active ? 'white' : (theme.palette.mode === 'dark' ? '#9CA3AF' : '#6B7280'), 
-                  fontSize: '16px' 
+                  fontSize: { xs: '14px', sm: '16px' } 
                 }} />
               )}
             </ListItemButton>
@@ -120,36 +144,67 @@ export default function Sidebar() {
     <Box 
       component="nav" 
       sx={{ 
-        width: 212, 
-        height: { xs: '100vh', sm: '100vh', md: '100vh', lg: '100vh' },
+        width: { xs: '100%', md: 212 }, 
+        height: { xs: '100%', sm: '100vh', md: '100vh', lg: '100vh' },
         left: 0,
         top: 0,
-        padding: '20px 16px',
+        padding: { xs: '12px', sm: '16px', md: '20px 16px' },
         gap: '16px',
-        borderRight: '1px solid rgba(55, 65, 81, 0.3)',
+        borderRight: { xs: 'none', md: '1px solid rgba(55, 65, 81, 0.3)' },
         flexShrink: 0, 
-        display: { xs: 'none', md: 'block' },
+        display: 'block',
         bgcolor: theme.palette.mode === 'dark' ? '#1a1a1a' : '#FFFFFF',
-        overflowY: 'auto'
+        overflowY: 'auto',
+        '&::-webkit-scrollbar': {
+          width: '4px',
+        },
+        '&::-webkit-scrollbar-track': {
+          background: 'transparent',
+        },
+        '&::-webkit-scrollbar-thumb': {
+          background: theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.2)' : 'rgba(0, 0, 0, 0.2)',
+          borderRadius: '2px',
+        },
+        '&::-webkit-scrollbar-thumb:hover': {
+          background: theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.3)' : 'rgba(0, 0, 0, 0.3)',
+        },
       }} 
       aria-label="Sidebar"
     >
-      <Toolbar sx={{ px: 3, py: 3, display: 'flex', alignItems: 'center', gap: 2 }}>
+      <Toolbar sx={{ 
+        px: { xs: 2, sm: 3 }, 
+        py: { xs: 2, sm: 3 }, 
+        display: 'flex', 
+        alignItems: 'center', 
+        gap: { xs: 1.5, sm: 2 },
+        minHeight: { xs: 48, sm: 56 }
+      }}>
         <Box sx={{ 
-          width: 32, 
-          height: 32, 
+          width: { xs: 28, sm: 32 }, 
+          height: { xs: 28, sm: 32 }, 
           borderRadius: '50%', 
           background: 'linear-gradient(135deg, #3B82F6, #F59E0B)',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
           color: 'white',
-          fontSize: '14px',
-          fontWeight: 600
+          fontSize: { xs: '12px', sm: '14px' },
+          fontWeight: 600,
+          flexShrink: 0
         }}>
           B
         </Box>
-        <Typography variant="h6" fontWeight={600} color="text.primary">
+        <Typography 
+          variant="h6" 
+          fontWeight={600} 
+          color="text.primary"
+          sx={{
+            fontSize: { xs: '1rem', sm: '1.25rem' },
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+            whiteSpace: 'nowrap'
+          }}
+        >
           ByeWind
         </Typography>
       </Toolbar>

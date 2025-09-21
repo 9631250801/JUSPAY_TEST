@@ -140,8 +140,12 @@ export default function Dashboard() {
   const theme = useTheme();
   
   return (
-    <Box sx={{ width: '100%', maxWidth: '100%', bgcolor: 'background.default' }}>
-
+    <Box sx={{ 
+      width: '100%', 
+      maxWidth: '100%', 
+      bgcolor: 'background.default',
+      minHeight: '100%'
+    }}>
       <Box sx={{ 
         display: 'grid',
         gridTemplateColumns: { 
@@ -150,9 +154,10 @@ export default function Dashboard() {
           md: '1fr 1fr', 
           lg: '1fr 1fr' 
         },
-        gap: { xs: 2, sm: 3, md: '28px' },
+        gap: { xs: 2, sm: 2.5, md: 3, lg: '28px' },
         width: '100%',
-        maxWidth: '100%'
+        maxWidth: '100%',
+        minHeight: '100%'
       }}>
       {/* Left Side: 2x2 Grid of KPI Cards */}
       <Box sx={{ 
@@ -162,9 +167,10 @@ export default function Dashboard() {
           sm: '1fr 1fr', 
           md: '1fr 1fr' 
         }, 
-        gap: { xs: 2, sm: 1, md: '8px' },
+        gap: { xs: 2, sm: 1.5, md: 2, lg: '8px' },
         width: '100%',
-        height: 'auto'
+        height: 'fit-content',
+        alignContent: 'start'
       }}>
         {/* KPI Cards */}
         {kpis.map((kpi, index) => (
@@ -172,9 +178,9 @@ export default function Dashboard() {
             key={kpi.title}
             variant="outlined" 
             sx={{ 
-              width: { xs: '100%', sm: '100%', md: 202 },
-              height: { xs: 'auto', sm: 112 },
-              minWidth: { xs: 'auto', sm: 200 },
+              width: '100%',
+              height: { xs: 'auto', sm: 112, md: 112 },
+              minHeight: { xs: 100, sm: 112 },
               bgcolor: theme.palette.mode === 'dark' ? 'rgba(59, 130, 246, 0.1)' : '#E3F5FF',
               boxShadow: theme.palette.mode === 'dark' ? '0 6px 20px rgba(0, 0, 0, 0.3)' : '0 6px 20px rgba(13, 38, 59, 0.06)',
               border: 'none',
@@ -191,30 +197,67 @@ export default function Dashboard() {
               }
             }}
           >
-            <CardContent sx={{ p: 3, height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', padding: '24px' }}>
-              <Typography variant="body2" fontWeight={500} color="text.secondary" sx={{ fontSize: '14px' }}>
+            <CardContent sx={{ 
+              p: { xs: 2, sm: 2.5, md: 3 }, 
+              height: '100%', 
+              display: 'flex', 
+              flexDirection: 'column', 
+              justifyContent: 'space-between'
+            }}>
+              <Typography 
+                variant="body2" 
+                fontWeight={500} 
+                color="text.secondary" 
+                sx={{ 
+                  fontSize: { xs: '12px', sm: '13px', md: '14px' },
+                  lineHeight: 1.4
+                }}
+              >
                 {kpi.title}
               </Typography>
               <Box className="value-container" sx={{ 
-                display: 'flex', 
-                justifyContent: 'space-between', 
+                display: 'flex',
+                justifyContent: 'space-between',
                 alignItems: 'center',
-                transition: 'all 0.3s ease'
+                transition: 'all 0.3s ease',
+                mt: { xs: 1, sm: 1.5 }
               }}>
-                <Typography variant="h4" fontWeight={700} sx={{ fontSize: '32px', color: 'text.primary' }}>
+                <Typography 
+                  variant="h4" 
+                  fontWeight={700} 
+                  sx={{ 
+                    fontSize: { xs: '24px', sm: '28px', md: '32px' }, 
+                    color: 'text.primary',
+                    lineHeight: 1.2
+                  }}
+                >
                   {kpi.value}
                 </Typography>
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+                <Box sx={{ 
+                  display: 'flex', 
+                  alignItems: 'center', 
+                  gap: { xs: 0.25, sm: 0.5 },
+                  flexShrink: 0
+                }}>
                   {kpi.trend === 'up' ? (
-                    <TrendingUpIcon sx={{ color: '#10B981', fontSize: '20px' }} />
+                    <TrendingUpIcon sx={{ 
+                      color: '#10B981', 
+                      fontSize: { xs: '16px', sm: '18px', md: '20px' } 
+                    }} />
                   ) : (
-                    <TrendingDownIcon sx={{ color: '#EF4444', fontSize: '20px' }} />
+                    <TrendingDownIcon sx={{ 
+                      color: '#EF4444', 
+                      fontSize: { xs: '16px', sm: '18px', md: '20px' } 
+                    }} />
                   )}
-                  <Typography 
-                    variant="body2" 
-                    color={kpi.trend === 'up' ? '#10B981' : '#EF4444'} 
+                  <Typography
+                    variant="body2"
+                    color={kpi.trend === 'up' ? '#10B981' : '#EF4444'}
                     fontWeight={500}
-                    sx={{ fontSize: '14px' }}
+                    sx={{ 
+                      fontSize: { xs: '11px', sm: '12px', md: '14px' },
+                      lineHeight: 1.2
+                    }}
                   >
                     {kpi.change}
                   </Typography>
@@ -229,20 +272,41 @@ export default function Dashboard() {
       <Card 
         variant="outlined" 
         sx={{ 
-          width: { xs: '100%', sm: '100%', md: 432 },
-          height: { xs: 'auto', sm: 252 },
+          width: '100%',
+          height: { xs: 'auto', sm: 252, md: 252 },
+          minHeight: { xs: 200, sm: 252 },
           bgcolor: 'background.paper',
           boxShadow: theme.palette.mode === 'dark' ? '0 6px 20px rgba(0, 0, 0, 0.3)' : '0 6px 20px rgba(13, 38, 59, 0.06)',
           borderRadius: 3,
           border: 'none',
-          opacity: 1
+          opacity: 1,
+          display: 'flex',
+          flexDirection: 'column'
         }}
       >
-        <CardContent sx={{ p: 3,  padding: '24px' }}>
-          <Typography variant="h6" fontWeight={600} sx={{ mb: 3, color: 'text.primary', fontSize: '16px' }}>
+        <CardContent sx={{ 
+          p: { xs: 2, sm: 2.5, md: 3 }, 
+          flex: 1,
+          display: 'flex',
+          flexDirection: 'column'
+        }}>
+          <Typography 
+            variant="h6" 
+            fontWeight={600} 
+            sx={{ 
+              mb: { xs: 2, sm: 2.5, md: 3 }, 
+              color: 'text.primary', 
+              fontSize: { xs: '14px', sm: '15px', md: '16px' }
+            }}
+          >
             Projections vs Actuals
           </Typography>
-          <Box sx={{ height: 168, overflow: 'hidden' }}>
+          <Box sx={{ 
+            height: { xs: 150, sm: 168 }, 
+            overflow: 'hidden',
+            flex: 1,
+            minHeight: { xs: 150, sm: 168 }
+          }}>
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={projectionsData} margin={{ top: 10, right: 20, left: 0, bottom: 10 }}>
                 <CartesianGrid strokeDasharray="3 3" stroke={theme.palette.divider} />
@@ -309,7 +373,7 @@ export default function Dashboard() {
           >
             <CardContent sx={{ p: 3, flex: 1, display: 'flex', flexDirection: 'column', padding: '24px', }}>
               <Typography variant="h6" fontWeight={600} gutterBottom sx={{ mb: 3, color: 'text.primary', fontSize: '16px' }}>
-                Revenueee
+                Revenue
               </Typography>
               <Box sx={{ flex: 1, minHeight: 250 }}>
                 <ResponsiveContainer width="100%" height="100%">

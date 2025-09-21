@@ -12,6 +12,7 @@ export default function AppLayout({ children }) {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   const isTablet = useMediaQuery(theme.breakpoints.down('lg'));
+  const isDesktop = useMediaQuery(theme.breakpoints.up('lg'));
   const location = useLocation();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [notificationOpen, setNotificationOpen] = useState(false);
@@ -34,11 +35,10 @@ export default function AppLayout({ children }) {
       display: 'flex', 
       minHeight: '100vh', 
       bgcolor: 'background.default',
-      width: { xs: '100%', sm: '100%', md: '100%', lg: '100%' },
-      height: { xs: '100vh', sm: '100vh', md: '100vh', lg: '100vh' },
+      width: '100%',
+      height: '100vh',
       position: 'relative',
-      left: { xs: 0, sm: 0, md: 0, lg: 0 },
-      top: { xs: 0, sm: 0, md: 0, lg: 0 }
+      overflow: 'hidden'
     }}>
       {/* Mobile Drawer */}
       <Drawer
@@ -90,18 +90,33 @@ export default function AppLayout({ children }) {
         width: { 
           xs: '100%', 
           sm: '100%',
-          md: (isProjectsPage || isTablesPage) ? 'calc(100vw - 212px)' : 'calc(100vw - 212px)',
+          md: isDesktop ? (isProjectsPage || isTablesPage) ? 'calc(100vw - 212px)' : 'calc(100vw - 212px - 280px)' : '100%',
           lg: (isProjectsPage || isTablesPage) ? 'calc(100vw - 212px)' : 'calc(100vw - 212px - 280px)'
         },
         minWidth: 0,
-        maxWidth: { xs: '100%', sm: '100%', md: '100%', lg: '100%' }
+        maxWidth: '100%',
+        overflow: 'hidden'
       }}>
         <Topbar onMenuClick={handleDrawerToggle} onNotificationClick={handleNotificationToggle} hideNotifications={isTablesPage} isTablesPage={isTablesPage} />
         <Box sx={{ 
           flex: 1, 
-          py: { xs: 2, sm: 3 }, 
+          py: { xs: 1, sm: 2, md: 3 }, 
           px: { xs: 1, sm: 2, md: 3 },
-          overflow: 'auto'
+          overflow: 'auto',
+          height: '100%',
+          '&::-webkit-scrollbar': {
+            width: '6px',
+          },
+          '&::-webkit-scrollbar-track': {
+            background: 'transparent',
+          },
+          '&::-webkit-scrollbar-thumb': {
+            background: theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.2)' : 'rgba(0, 0, 0, 0.2)',
+            borderRadius: '3px',
+          },
+          '&::-webkit-scrollbar-thumb:hover': {
+            background: theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.3)' : 'rgba(0, 0, 0, 0.3)',
+          },
         }} component="main">
           {children}
         </Box>
